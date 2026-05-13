@@ -24,19 +24,27 @@
 
   function cycleRole() {
     const current = roleContainer.querySelector(".role");
+
     if (current) {
-      current.classList.remove("enter");
-      current.classList.add("exit");
-      current.addEventListener("animationend", () => current.remove(), { once: true });
+        current.classList.remove("enter");
+        current.classList.add("exit");
+        current.addEventListener("animationend", () => {
+            current.remove(); 
+            idx = (idx + 1) % words.length;
+            const next = document.createElement("span");
+            next.className = "role enter";
+            next.textContent = words[idx];
+            roleContainer.appendChild(next);
+
+        }, { once: true }); 
+
+    } else {
+        const next = document.createElement("span");
+        next.className = "role enter";
+        next.textContent = words[idx];
+        roleContainer.appendChild(next);
     }
-    idx = (idx + 1) % words.length;
-    setTimeout(() => {
-      const next = document.createElement("span");
-      next.className = "role enter";
-      next.textContent = words[idx];
-      roleContainer.appendChild(next);
-    }, 400);
-  }
+}
   setInterval(cycleRole, 3800);
 
   /* ── Header shrink on scroll ── */
