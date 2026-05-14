@@ -18,34 +18,36 @@
   }
 
   /* ── Word drop animation (hero roles) ── */
-  const words = ["SOFTWARE DEVELOPER", "TECH ENTHUSIAST", "YOUTH ADVOCATE"];
-  let idx = 0;
-  const roleContainer = document.getElementById("role-container");
+ const words = ["SOFTWARE DEVELOPER", "YOUTH ADVOCATE", "TECH ENTHUSIAST"];
+const roleText = document.getElementById("dynamic-role");
+let index = 0;
 
-  function cycleRole() {
-    const current = roleContainer.querySelector(".role");
+function changeRole() {
+    roleText.classList.remove("drop-in");
+    roleText.classList.add("drop-out");
 
-    if (current) {
-        current.classList.remove("enter");
-        current.classList.add("exit");
-        current.addEventListener("animationend", () => {
-            current.remove(); 
-            idx = (idx + 1) % words.length;
-            const next = document.createElement("span");
-            next.className = "role enter";
-            next.textContent = words[idx];
-            roleContainer.appendChild(next);
+    setTimeout(() => {
+        index = (index + 1) % words.length;
+        roleText.textContent = words[index];
 
-        }, { once: true }); 
+        roleText.classList.remove("drop-out");
+        roleText.classList.add("pre-drop");
 
-    } else {
-        const next = document.createElement("span");
-        next.className = "role enter";
-        next.textContent = words[idx];
-        roleContainer.appendChild(next);
-    }
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                roleText.classList.remove("pre-drop");
+                roleText.classList.add("drop-in");
+            });
+        });
+
+    }, 500); 
 }
-  setInterval(cycleRole, 3800);
+
+// Initial state
+roleText.classList.add("drop-in");
+
+// Loop
+setInterval(changeRole, 4000);
 
   /* ── Header shrink on scroll ── */
   window.addEventListener("scroll", () => {

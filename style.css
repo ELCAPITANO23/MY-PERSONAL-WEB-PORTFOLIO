@@ -129,7 +129,7 @@ nav.mobile-open {
   overflow: hidden;
   background:
     linear-gradient(rgba(2,6,23,0.45), rgba(2,6,23,0.7)),
-    url('images/bitcode.png') center/cover no-repeat;
+    url('images/background.jpg') center/cover no-repeat;
 }
 
 .hero-overlay {
@@ -169,42 +169,54 @@ nav.mobile-open {
 }
 
 /* ── Role drop animation ── */
-.role-wrapper {
-  position: relative;
-  height: 2em;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 28px;
+#dynamic-role {
+    display: inline-block;
+    overflow: hidden;  
+    color: var(--neon);
+    font-size: 1.5rem;  
 }
 
-.role {
-  position: absolute;
-  font-family: var(--font-mono);
-  font-size: clamp(16px, 1.8vw, 20px);
-  color: var(--neon);
-  letter-spacing: 0.2em;
-  opacity: 0;
+/* Word sitting normally */
+.drop-in {
+    animation: dropIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.role.enter {
-  animation: roleDropIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Word falling down and out */
+.drop-out {
+    animation: dropOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.role.exit {
-  animation: roleDropOut 0.7s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+/* New word waiting above, hidden */
+.pre-drop {
+    transform: translateY(-100%);
+    opacity: 0;
 }
 
-@keyframes roleDropIn {
-  0%   { transform: translateY(-140%); opacity: 0; filter: blur(4px); }
-  60%  { opacity: 1; filter: blur(0); }
-  100% { transform: translateY(0);     opacity: 1; }
+/* New word drops DOWN into position */
+@keyframes dropIn {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-@keyframes roleDropOut {
-  0%   { transform: translateY(0);    opacity: 1; }
-  100% { transform: translateY(140%); opacity: 0; filter: blur(4px); }
+/* Current word drops DOWN out of view */
+@keyframes dropOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to 
+    {
+        transform: translateY(100%);
+        opacity: 0;
+    }
 }
+/* ── End of role animation ── */
 
 .hero-desc {
   font-size: clamp(18px, 1.6vw, 22px);
